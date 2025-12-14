@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@RepositoryRestResource(collectionResourceRel = "loans", path = "loans")
+@RepositoryRestResource(exported = false)
 public interface LoanRepository extends JpaRepository<Loan, Long> {
     
     List<Loan> findByBorrowerNameContainingIgnoreCase(String borrowerName);
