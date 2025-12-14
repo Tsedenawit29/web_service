@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System - Choose Version</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #ff6b35 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            padding: 50px;
+            text-align: center;
+            max-width: 700px;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        p {
+            color: #2a5298;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        
+        .version-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .version-card {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-width: 220px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .version-card:nth-child(2) {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+        }
+        
+        .version-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        
+        .version-card h2 {
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        
+        .version-card p {
+            color: rgba(255, 255, 255, 0.95);
+            margin: 0;
+            font-size: 0.95em;
+        }
+        
+        .api-link {
+            margin-top: 35px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        .api-link p {
+            color: #2a5298;
+            margin-bottom: 10px;
+        }
+        
+        .api-link a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border: 2px solid #ff6b35;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .api-link a:hover {
+            background: #ff6b35;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Loan Management System</h1>
+        <p>Choose your preferred frontend framework:</p>
+        
+        <div class="version-links">
+            <a href="/jquery.html" class="version-card">
+                <h2>jQuery</h2>
+                <p>jQuery REST Client</p>
+            </a>
+            
+            <a href="/angularjs.html" class="version-card">
+                <h2>AngularJS</h2>
+                <p>AngularJS REST Client</p>
+            </a>
+        </div>
+        
+        <div class="api-link">
+            <p>Or access the API directly:</p>
+            <a href="/api/loans" target="_blank">View REST API (HATEOAS)</a>
+        </div>
+    </div>
+</body>
+</html>

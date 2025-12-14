@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management System - jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #ff6b35 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, #2a5298 0%, #ff6b35 100%);
+            border-radius: 10px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .form-section {
+            background: linear-gradient(135deg, #e8f4f8 0%, #fff5f0 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid #2a5298;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #2a5298;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6b35 0%, #e63946 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #2a5298 0%, #4a90e2 100%);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+        }
+        
+        .stat-card:nth-child(3) {
+            background: linear-gradient(135deg, #2a5298 0%, #4a90e2 100%);
+        }
+        
+        .stat-card:nth-child(4) {
+            background: linear-gradient(135deg, #ff6b35 0%, #ffa07a 100%);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card p {
+            opacity: 0.95;
+            font-size: 1.1em;
+        }
+        
+        .loans-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .loans-table th,
+        .loans-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .loans-table th {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .loans-table tr:hover {
+            background: #f0f7ff;
+        }
+        
+        .loans-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-PENDING {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status-APPROVED {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status-REJECTED {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .status-PAID_OFF {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .search-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #e8f4f8 0%, #fff5f0 100%);
+            border-radius: 12px;
+            border: 2px solid #ff6b35;
+        }
+        
+        .search-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .search-row input,
+        .search-row select {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .message {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #dc3545;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-buttons button {
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Loan Management System (jQuery)</h1>
+        <div class="nav-links">
+            <a href="/jquery.html">jQuery Version</a>
+            <a href="/angularjs.html">AngularJS Version</a>
+            <a href="/">Home</a>
+        </div>
+        <div id="message" class="message"></div>
+        
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <h3 id="totalLoans">0</h3>
+                <p>Total Loans</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="pendingLoans">0</h3>
+                <p>Pending Loans</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="approvedLoans">0</h3>
+                <p>Approved Loans</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalAmount">$0</h3>
+                <p>Total Amount</p>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2 id="formTitle">Add New Loan</h2>
+            <form id="loanForm">
+                <input type="hidden" id="loanId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="borrowerName">Borrower Name *</label>
+                        <input type="text" id="borrowerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loanAmount">Loan Amount ($) *</label>
+                        <input type="number" id="loanAmount" step="0.01" min="100" max="1000000" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="interestRate">Interest Rate (%) *</label>
+                        <input type="number" id="interestRate" step="0.01" min="0" max="30" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loanTermMonths">Loan Term (Months) *</label>
+                        <input type="number" id="loanTermMonths" min="1" max="360" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="loanType">Loan Type *</label>
+                        <select id="loanType" required>
+                            <option value="">Select Type</option>
+                            <option value="PERSONAL">Personal</option>
+                            <option value="BUSINESS">Business</option>
+                            <option value="MORTGAGE">Mortgage</option>
+                            <option value="AUTO">Auto</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status">
+                            <option value="PENDING">Pending</option>
+                            <option value="APPROVED">Approved</option>
+                            <option value="REJECTED">Rejected</option>
+                            <option value="PAID_OFF">Paid Off</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3"></textarea>
+                </div>
+                <button type="submit" id="submitBtn">Add Loan</button>
+                <button type="button" id="cancelBtn" style="display:none; background: #6c757d;">Cancel</button>
+            </form>
+        </div>
+        
+        <div class="search-section">
+            <h2>Search Loans</h2>
+            <div class="search-row">
+                <input type="text" id="searchBorrower" placeholder="Search by borrower name...">
+                <select id="searchStatus">
+                    <option value="">All Statuses</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="REJECTED">Rejected</option>
+                    <option value="PAID_OFF">Paid Off</option>
+                </select>
+                <select id="searchLoanType">
+                    <option value="">All Types</option>
+                    <option value="PERSONAL">Personal</option>
+                    <option value="BUSINESS">Business</option>
+                    <option value="MORTGAGE">Mortgage</option>
+                    <option value="AUTO">Auto</option>
+                </select>
+                <button type="button" onclick="searchLoans()">Search</button>
+                <button type="button" onclick="loadAllLoans()">Clear</button>
+            </div>
+        </div>
+        
+        <div>
+            <h2>All Loans</h2>
+            <table class="loans-table">
+                <thead>
+                    <tr>
+                        <th>Borrower</th>
+                        <th>Amount</th>
+                        <th>Interest Rate</th>
+                        <th>Term (Months)</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Monthly Payment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="loansTableBody">
+                    <tr>
+                        <td colspan="8" style="text-align: center;">Loading loans...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        // jQuery REST Client for Loan Management System
+        const API_BASE = window.location.origin + '/api/loans';
+        
+        // Helper function to extract ID from HATEOAS link or use direct ID
+        function extractLoanId(loan) {
+            if (loan.id) {
+                return loan.id;
+            }
+            // Extract ID from _links.self.href if available
+            if (loan._links && loan._links.self && loan._links.self.href) {
+                const href = loan._links.self.href;
+                const matches = href.match(/\/(\d+)$/);
+                if (matches && matches[1]) {
+                    return matches[1];
+                }
+            }
+            return null;
+        }
+        
+        $(document).ready(function() {
+            loadAllLoans();
+            loadStats();
+            
+            $('#loanForm').on('submit', function(e) {
+                e.preventDefault();
+                const loanId = $('#loanId').val();
+                if (loanId) {
+                    updateLoan(loanId);
+                } else {
+                    createLoan();
+                }
+            });
+            
+            $('#cancelBtn').on('click', function() {
+                resetForm();
+            });
+        });
+        
+        function loadAllLoans() {
+            $.ajax({
+                url: API_BASE,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    displayLoans(data._embedded ? data._embedded.loans : []);
+                },
+                error: function(xhr, status, error) {
+                    showMessage('Error loading loans: ' + error, 'error');
+                }
+            });
+        }
+        
+        function searchLoans() {
+            const borrowerName = $('#searchBorrower').val();
+            const status = $('#searchStatus').val();
+            const loanType = $('#searchLoanType').val();
+            
+            let url = API_BASE + '/search?';
+            const params = [];
+            
+            if (borrowerName) params.push('borrowerName=' + encodeURIComponent(borrowerName));
+            if (status) params.push('status=' + encodeURIComponent(status));
+            if (loanType) params.push('loanType=' + encodeURIComponent(loanType));
+            
+            url += params.join('&');
+            
+            $.ajax({
+                url: url,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    displayLoans(data._embedded ? data._embedded.loans : []);
+                },
+                error: function(xhr, status, error) {
+                    showMessage('Error searching loans: ' + error, 'error');
+                }
+            });
+        }
+        
+        function createLoan() {
+            const loan = {
+                borrowerName: $('#borrowerName').val(),
+                loanAmount: parseFloat($('#loanAmount').val()),
+                interestRate: parseFloat($('#interestRate').val()),
+                loanTermMonths: parseInt($('#loanTermMonths').val()),
+                loanType: $('#loanType').val(),
+                status: $('#status').val(),
+                description: $('#description').val()
+            };
+            
+            $.ajax({
+                url: API_BASE,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(loan),
+                success: function(data) {
+                    showMessage('Loan created successfully!', 'success');
+                    resetForm();
+                    loadAllLoans();
+                    loadStats();
+                },
+                error: function(xhr, status, error) {
+                    const errorMsg = xhr.responseJSON ? JSON.stringify(xhr.responseJSON) : error;
+                    showMessage('Error creating loan: ' + errorMsg, 'error');
+                }
+            });
+        }
+        
+        function updateLoan(id) {
+            const loan = {
+                borrowerName: $('#borrowerName').val(),
+                loanAmount: parseFloat($('#loanAmount').val()),
+                interestRate: parseFloat($('#interestRate').val()),
+                loanTermMonths: parseInt($('#loanTermMonths').val()),
+                loanType: $('#loanType').val(),
+                status: $('#status').val(),
+                description: $('#description').val()
+            };
+            
+            $.ajax({
+                url: API_BASE + '/' + id,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(loan),
+                success: function(data) {
+                    showMessage('Loan updated successfully!', 'success');
+                    resetForm();
+                    loadAllLoans();
+                    loadStats();
+                },
+                error: function(xhr, status, error) {
+                    showMessage('Error updating loan: ' + error, 'error');
+                }
+            });
+        }
+        
+        function deleteLoan(id) {
+            if (!confirm('Are you sure you want to delete this loan?')) {
+                return;
+            }
+            
+            $.ajax({
+                url: API_BASE + '/' + id,
+                method: 'DELETE',
+                success: function() {
+                    showMessage('Loan deleted successfully!', 'success');
+                    loadAllLoans();
+                    loadStats();
+                },
+                error: function(xhr, status, error) {
+                    showMessage('Error deleting loan: ' + error, 'error');
+                }
+            });
+        }
+        
+        function editLoan(id) {
+            $.ajax({
+                url: API_BASE + '/' + id,
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    // Extract ID if not directly available
+                    const loanId = extractLoanId(data);
+                    $('#loanId').val(loanId);
+                    $('#borrowerName').val(data.borrowerName);
+                    $('#loanAmount').val(data.loanAmount);
+                    $('#interestRate').val(data.interestRate);
+                    $('#loanTermMonths').val(data.loanTermMonths);
+                    $('#loanType').val(data.loanType);
+                    $('#status').val(data.status);
+                    $('#description').val(data.description || '');
+                    
+                    $('#formTitle').text('Edit Loan');
+                    $('#submitBtn').text('Update Loan');
+                    $('#cancelBtn').show();
+                    
+                    $('html, body').animate({
+                        scrollTop: $('.form-section').offset().top
+                    }, 500);
+                },
+                error: function(xhr, status, error) {
+                    showMessage('Error loading loan: ' + error, 'error');
+                }
+            });
+        }
+        
+        function displayLoans(loans) {
+            const tbody = $('#loansTableBody');
+            tbody.empty();
+            
+            if (loans.length === 0) {
+                tbody.append('<tr><td colspan="8" style="text-align: center;">No loans found</td></tr>');
+                return;
+            }
+            
+            loans.forEach(function(loan) {
+                const loanId = extractLoanId(loan);
+                const monthlyPayment = calculateMonthlyPayment(loan.loanAmount, loan.interestRate, loan.loanTermMonths);
+                
+                const row = `
+                    <tr>
+                        <td>${loan.borrowerName}</td>
+                        <td>$${loan.loanAmount.toFixed(2)}</td>
+                        <td>${loan.interestRate}%</td>
+                        <td>${loan.loanTermMonths}</td>
+                        <td>${loan.loanType}</td>
+                        <td><span class="status-badge status-${loan.status}">${loan.status}</span></td>
+                        <td>$${monthlyPayment.toFixed(2)}</td>
+                        <td class="action-buttons">
+                            <button onclick="editLoan('${loanId}')" class="btn-success">Edit</button>
+                            <button onclick="deleteLoan('${loanId}')" class="btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+        
+        function loadStats() {
+            $.ajax({
+                url: API_BASE + '/stats',
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#totalLoans').text(data.totalLoans);
+                    $('#pendingLoans').text(data.pendingLoans);
+                    $('#approvedLoans').text(data.approvedLoans);
+                    $('#totalAmount').text('$' + data.totalAmount.toFixed(2));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading stats:', error);
+                }
+            });
+        }
+        
+        function calculateMonthlyPayment(principal, rate, months) {
+            const monthlyRate = rate / 100 / 12;
+            if (monthlyRate === 0) {
+                return principal / months;
+            }
+            return principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) 
+                   / (Math.pow(1 + monthlyRate, months) - 1);
+        }
+        
+        function resetForm() {
+            $('#loanForm')[0].reset();
+            $('#loanId').val('');
+            $('#formTitle').text('Add New Loan');
+            $('#submitBtn').text('Add Loan');
+            $('#cancelBtn').hide();
+        }
+        
+        function showMessage(message, type) {
+            const msgDiv = $('#message');
+            msgDiv.removeClass('success error')
+                  .addClass(type)
+                  .text(message)
+                  .fadeIn();
+            
+            setTimeout(function() {
+                msgDiv.fadeOut();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
