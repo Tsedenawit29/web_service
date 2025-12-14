@@ -1,0 +1,10 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+.git
+.gitignore
+README.md
+DEPLOYMENT_GUIDE.md
+FIX_JAVA_ENVIRONMENT.md
+FREE_TIER_SETUP.md
+*.md
+
